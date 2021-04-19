@@ -15,8 +15,8 @@ public class DataFrame {
 	public void addColumn(String label, List<Double> values) {
 		this.columns.put(label, new ArrayList<>(values));
 	}
-
-	public double min(String label) {
+	
+	public void operation(String label) {
 		if (!this.columns.containsKey(label)) {
 			throw new DataFrameException("Column " + label + " is invalid!");
 		}
@@ -24,113 +24,40 @@ public class DataFrame {
 		if (values.size() == 0) {
 			throw new DataFrameException("Column " + label + " is empty!");
 		}
-
-		double m = Double.POSITIVE_INFINITY;
+		
+		double min = Double.POSITIVE_INFINITY;
 		for (double value: values) {
-			if (m > value) {
-				m = value;
+			if (min > value) {
+				min = value;
 			}
 		}
-		return m;
-	}
-
-	public double max(String label) {
-		if (!this.columns.containsKey(label)) {
-			throw new DataFrameException("Column " + label + " is invalid!");
-		}
-		List<Double> values = this.columns.get(label);
-		if (values.size() == 0) {
-			throw new DataFrameException("Column " + label + " is empty!");
-		}
-
-		double m = Double.NEGATIVE_INFINITY;
+		
+		double max = Double.NEGATIVE_INFINITY;
 		for (double value: values) {
-			if (m < value) {
-				m = value;
+			if (max < value) {
+				max = value;
 			}
 		}
-		return m;
-	}
-
-	public double sum(String label) {
-		if (!this.columns.containsKey(label)) {
-			throw new DataFrameException("Column " + label + " is invalid!");
-		}
-		List<Double> values = this.columns.get(label);
-		if (values.size() == 0) {
-			throw new DataFrameException("Column " + label + " is empty!");
-		}
-
+		
 		double s = 0;
 		for (double value: values) {
 			s += value;
 		}
-		return s;
+		
+		double avg = s / values.size();
+		
+
+		double s2 = 0;
+		
+		for (double value: values) {
+			s2 += Math.pow(value - avg, 2);
+		}
+		
+		double var = s2 / values.size();
+		
+		double std = Math.sqrt(var);
+
+		
 	}
-
-	public double avg(String label) {
-		if (!this.columns.containsKey(label)) {
-			throw new DataFrameException("Column " + label + " is invalid!");
-		}
-		List<Double> values = this.columns.get(label);
-		if (values.size() == 0) {
-			throw new DataFrameException("Column " + label + " is empty!");
-		}
-
-		double s = 0;
-		for (double value: values) {
-			s += value;
-		}
-		return s / values.size();
-	}
-
-	public double var(String label) {
-		if (!this.columns.containsKey(label)) {
-			throw new DataFrameException("Column " + label + " is invalid!");
-		}
-		List<Double> values = this.columns.get(label);
-		if (values.size() == 0) {
-			throw new DataFrameException("Column " + label + " is empty!");
-		}
-
-		double s;
-
-		s = 0;
-		for (double value: values) {
-			s += value;
-		}
-		double m = s / values.size();
-
-		s = 0;
-		for (double value: values) {
-			s += Math.pow(value - m, 2);
-		}
-		return s / values.size();
-	}
-
-	public double std(String label) {
-		if (!this.columns.containsKey(label)) {
-			throw new DataFrameException("Column " + label + " is invalid!");
-		}
-		List<Double> values = this.columns.get(label);
-		if (values.size() == 0) {
-			throw new DataFrameException("Column " + label + " is empty!");
-		}
-
-		double s, m;
-
-		s = 0;
-		for (double value: values) {
-			s += value;
-		}
-		m = s / values.size();
-
-		s = 0;
-		for (double value: values) {
-			s += Math.pow(value - m, 2);
-		}
-		m = s / values.size();
-
-		return Math.sqrt(m);
-	}
+	
 }
