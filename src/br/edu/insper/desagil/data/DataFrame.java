@@ -1,6 +1,7 @@
 package br.edu.insper.desagil.data;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +57,17 @@ public class DataFrame {
 		double var = s2 / values.size();
 		
 		double std = Math.sqrt(var);
-
 		
+		List<double> lista = new ArrayList<>();
+		
+		lista.add(min);
+		lista.add(max);
+		lista.add(s);
+		lista.add(avg);
+		lista.add(var);
+		lista.add(std);
+
+		return lista;
 	}
 	
 }
